@@ -13,9 +13,14 @@ const ProjectSchema = new Schema({
     enum: ['new', 'uncomplete', 'complete'],
     default: 'new',
   },
-  task_id: {
+  tasks_id: [{
     type: Schema.Types.ObjectId,
     ref: 'Task',
+    required: true,
+  }],
+  color: {
+    type: String,
+    default: 'green',
   },
   created_at: {
     type: Date,

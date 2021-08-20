@@ -37,13 +37,13 @@ async function handler(req, res) {
 
         noteValidation.validateNotePayload(req.body);
 
-        const idNote = await noteService.createNote({ title, description, color });
+        const noteId = await noteService.createNote({ title, description, color });
 
         return res.status(201).json({
           success: true,
           message: 'Note successfull created',
           note: {
-            id: idNote,
+            id: noteId,
           },
         });
       } catch (error) {
