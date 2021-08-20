@@ -13,7 +13,6 @@ class MyDocument extends Document {
       <Html lang="en">
         <Head>
           <meta name="description" content="Create your notes and projects easily with Noteable" />
-          <title>Noteable</title>
           <link rel="icon" href="/favicon.svg" />
         </Head>
         <body>
