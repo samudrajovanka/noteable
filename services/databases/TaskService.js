@@ -27,7 +27,7 @@ class TaskService {
     await task.save();
   }
 
-  async deleteTask(projectId, taskId) {
+  async deleteTask(projectId, taskId, { deleteAll }) {
     const task = await Task.findById(taskId);
 
     if (!task) {
@@ -36,8 +36,10 @@ class TaskService {
 
     const project = await new ProjectService().getProjectById(projectId);
 
-    if (project.tasks.length - 1 === 0) {
-      throw new InvariantError('Task is minimum 1 items');
+    if (!deleteAll) {
+      if (project.tasks.length - 1 === 0) {
+        throw new InvariantError('Task is minimum 1 items');
+      }
     }
 
     await Task.deleteOne({ _id: taskId });

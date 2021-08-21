@@ -91,7 +91,7 @@ class ProjectService {
     }
 
     await Promise.all(project.tasks_id.map(async (taskId) => {
-      await this._taskService.deleteTask(id, taskId);
+      await this._taskService.deleteTask(id, taskId, { deleteAll: true });
     }));
 
     await Project.deleteOne({ _id: id });
