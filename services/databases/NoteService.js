@@ -12,12 +12,6 @@ class NoteService {
   }
 
   async createNote({ title, description, color }) {
-    const existNote = await Note.findOne({ title });
-
-    if (existNote) {
-      throw new InvariantError('Note already exist');
-    }
-
     const newNote = new Note({
       title,
       description,

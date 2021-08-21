@@ -16,12 +16,6 @@ class ProjectService {
   }
 
   async createProject({ name, tasks, color }) {
-    const existProject = await Project.findOne({ name });
-
-    if (existProject) {
-      throw new InvariantError('Project already exist');
-    }
-
     const taskService = new TaskService();
 
     const tasksId = await Promise.all(tasks.map(async (task) => {
