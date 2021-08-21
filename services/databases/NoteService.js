@@ -49,7 +49,7 @@ class NoteService {
     note.color = color ?? note.color;
     note.pinned = pinned ?? note.pinned;
     note.updatedAt = new Date();
-    note.save();
+    await note.save();
   }
 
   async deleteNote(id) {

@@ -6,6 +6,8 @@ const ProjectSchema = new Schema({
   name: {
     type: String,
     required: true,
+    minLength: 5,
+    maxLength: 30,
   },
   status: {
     type: String,
@@ -16,6 +18,8 @@ const ProjectSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Task',
     required: true,
+    minItems: 1,
+    maxItems: 30,
   }],
   color: {
     type: String,

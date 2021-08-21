@@ -1,23 +1,24 @@
 import ClientError from '@exceptions/ClientError';
 import connectDb from '@lib/connectDb';
-import ProjectService from '@services/databases/ProjectService';
-import projectValidation from '@validations/project';
+import TaskService from '@services/databases/TaskService';
 import taskValidation from '@validations/task';
 
 async function handler(req, res) {
-  const projectService = new ProjectService();
+  const taskService = new TaskService();
 
   switch (req.method) {
-    case 'GET':
+    case 'PUT':
       try {
-        const projects = await projectService.getProjects();
+        const { taskId } = req.query;
+        const { name, done } = req.body;
+
+        taskValidation.validateTaskUpdatePayload(req.body);
+
+        await taskService.updateTask(taskId, { name, done });
 
         return res.status(200).json({
           success: true,
-          length: projects.length ?? 0,
-          data: {
-            projects,
-          },
+          message: 'Task updated successfully',
         });
       } catch (error) {
         if (error instanceof ClientError) {
@@ -32,21 +33,15 @@ async function handler(req, res) {
           message: error.message,
         });
       }
-    case 'POST':
+    case 'DELETE':
       try {
-        const { name, tasks, color } = req.body;
+        const { projectId, taskId } = req.query;
 
-        projectValidation.validateProjectPayload({ name, color });
-        taskValidation.validateTasksPayload({ tasks });
+        await taskService.deleteTask(projectId, taskId);
 
-        const projectId = await projectService.createProject({ name, tasks, color });
-
-        return res.status(201).json({
+        return res.status(200).json({
           success: true,
-          message: 'Project successfull created',
-          project: {
-            id: projectId,
-          },
+          message: 'Task deleted successfully',
         });
       } catch (error) {
         if (error instanceof ClientError) {

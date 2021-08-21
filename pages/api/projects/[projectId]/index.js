@@ -10,13 +10,14 @@ async function handler(req, res) {
   switch (req.method) {
     case 'GET':
       try {
-        const projects = await projectService.getProjects();
+        const { projectId } = req.query;
+
+        const project = await projectService.getProjectById(projectId);
 
         return res.status(200).json({
           success: true,
-          length: projects.length ?? 0,
           data: {
-            projects,
+            project,
           },
         });
       } catch (error) {
@@ -32,21 +33,50 @@ async function handler(req, res) {
           message: error.message,
         });
       }
-    case 'POST':
+    case 'PUT':
       try {
-        const { name, tasks, color } = req.body;
+        const { projectId } = req.query;
 
-        projectValidation.validateProjectPayload({ name, color });
-        taskValidation.validateTasksPayload({ tasks });
+        const { name, status, tasks, color } = req.body;
 
-        const projectId = await projectService.createProject({ name, tasks, color });
+        if (!name && !status && !color && (!tasks || tasks.length === 0)) {
+          return res.status(200).json({
+            success: true,
+            message: 'Project is up to date',
+          });
+        }
 
-        return res.status(201).json({
+        projectValidation.validateProjectUpdatePayload({ name, status, color });
+        taskValidation.validateTasksUpdatePayload({ tasks });
+
+        await projectService.updateProject(projectId, { name, status, tasks, color });
+
+        return res.status(200).json({
           success: true,
-          message: 'Project successfull created',
-          project: {
-            id: projectId,
-          },
+          message: 'Project updated successfully',
+        });
+      } catch (error) {
+        if (error instanceof ClientError) {
+          return res.status(error.statusCode).json({
+            success: false,
+            message: error.message,
+          });
+        }
+
+        return res.status(500).json({
+          success: false,
+          message: error.message,
+        });
+      }
+    case 'DELETE':
+      try {
+        const { projectId } = req.query;
+
+        await projectService.deleteProject(projectId);
+
+        return res.status(200).json({
+          success: true,
+          message: 'Project deleted successfully',
         });
       } catch (error) {
         if (error instanceof ClientError) {
