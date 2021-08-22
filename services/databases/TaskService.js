@@ -5,8 +5,12 @@ import ProjectService from './ProjectService';
 
 class TaskService {
   async createTask({ name }) {
+    const dateNow = Date.now();
+
     const newTask = new Task({
       name,
+      created_at: dateNow,
+      updated_at: dateNow,
     });
 
     const task = await newTask.save();

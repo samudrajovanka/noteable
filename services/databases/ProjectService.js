@@ -10,7 +10,8 @@ class ProjectService {
   }
 
   async getProjects() {
-    const projects = await Project.find().populate('tasks_id');
+    const projects = await Project.find().sort({ created_at: 'desc' })
+      .populate('tasks_id');
 
     const projectsFormated = projects.map((project) => {
       const doneTasks = project.tasks_id.filter((task) => task.done);
@@ -33,10 +34,14 @@ class ProjectService {
   async createProject({ name, tasks, color }) {
     const tasksId = await this.createTasks(tasks);
 
+    const dateNow = Date.now();
+
     const newProject = new Project({
       name,
       tasks_id: tasksId,
       color,
+      created_at: dateNow,
+      updated_at: dateNow,
     });
 
     const project = await newProject.save();

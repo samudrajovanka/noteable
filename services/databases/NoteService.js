@@ -5,17 +5,21 @@ import Note from '@models/NoteModel';
 
 class NoteService {
   async getNotes() {
-    const notes = await Note.find();
+    const notes = await Note.find().sort({ created_at: 'desc' });
     const notesFormated = notes.map((note) => mapNoteToModel(note));
 
     return notesFormated;
   }
 
   async createNote({ title, description, color }) {
+    const dateNow = Date.now();
+
     const newNote = new Note({
       title,
       description,
       color,
+      created_at: dateNow,
+      updated_at: dateNow,
     });
 
     const note = await newNote.save();
