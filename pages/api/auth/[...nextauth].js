@@ -33,6 +33,7 @@ export default connectDb(NextAuth({
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     }),
   ],
+  database: process.env.MONGO_URI,
   callbacks: {
     async signIn(user, account, profile) {
       if (account.provider === 'google' &&
