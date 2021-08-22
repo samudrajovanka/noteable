@@ -11,6 +11,21 @@ module.exports = (phase) => {
         API_KEY: process.env.API_KEY_DEV,
         GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
         GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
+        SECRET_KEY: process.env.SECRET_KEY_DEV,
+        CALLBACK_URL: 'http://localhost:3000',
+      },
+      async headers() {
+        return [
+          {
+            source: '/:path*',
+            headers: [
+              {
+                key: 'x-api-key',
+                value: process.env.API_KEY_DEV,
+              },
+            ],
+          },
+        ];
       },
     };
   }
@@ -24,7 +39,21 @@ module.exports = (phase) => {
       API_KEY: process.env.API_KEY,
       GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
       GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
-      NEXTAUTH_URL: 'https://noteable-task.vercel.app/api/auth',
+      SECRET_KEY: process.env.SECRET_KEY,
+      CALLBACK_URL: 'https://noteable-task.vercel.app/',
+    },
+    async headers() {
+      return [
+        {
+          source: '/:path*',
+          headers: [
+            {
+              key: 'x-api-key',
+              value: process.env.API_KEY,
+            },
+          ],
+        },
+      ];
     },
   };
 };
