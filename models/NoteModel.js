@@ -6,10 +6,13 @@ const NoteSchema = new Schema({
   title: {
     type: String,
     required: true,
+    minLength: 5,
+    maxLength: 30,
   },
   description: {
     type: String,
     required: true,
+    maxLength: 300,
   },
   pinned: {
     type: Boolean,
