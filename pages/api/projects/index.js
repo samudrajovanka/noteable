@@ -1,11 +1,26 @@
+import AuthenticationError from '@exceptions/Authentication';
 import ClientError from '@exceptions/ClientError';
 import connectDb from '@lib/connectDb';
 import ProjectService from '@services/databases/ProjectService';
 import projectValidation from '@validations/project';
 import taskValidation from '@validations/task';
+import { getSession } from 'next-auth/client';
 
 async function handler(req, res) {
   const projectService = new ProjectService();
+
+  try {
+    const session = await getSession({ req });
+
+    if (!session) {
+      throw new AuthenticationError('No authenticated');
+    }
+  } catch (error) {
+    return res.status(error.statusCode).json({
+      success: false,
+      message: error.message,
+    });
+  }
 
   switch (req.method) {
     case 'GET':

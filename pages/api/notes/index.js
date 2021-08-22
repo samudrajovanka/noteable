@@ -1,10 +1,25 @@
+import AuthenticationError from '@exceptions/Authentication';
 import ClientError from '@exceptions/ClientError';
 import connectDb from '@lib/connectDb';
 import NoteService from '@services/databases/NoteService';
 import noteValidation from '@validations/note';
+import { getSession } from 'next-auth/client';
 
 async function handler(req, res) {
   const noteService = new NoteService();
+
+  try {
+    const session = await getSession({ req });
+
+    if (!session) {
+      throw new AuthenticationError('No authenticated');
+    }
+  } catch (error) {
+    return res.status(error.statusCode).json({
+      success: false,
+      message: error.message,
+    });
+  }
 
   switch (req.method) {
     case 'GET':

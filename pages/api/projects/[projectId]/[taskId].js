@@ -1,10 +1,25 @@
+import AuthenticationError from '@exceptions/Authentication';
 import ClientError from '@exceptions/ClientError';
 import connectDb from '@lib/connectDb';
 import TaskService from '@services/databases/TaskService';
 import taskValidation from '@validations/task';
+import { getSession } from 'next-auth/client';
 
 async function handler(req, res) {
   const taskService = new TaskService();
+
+  try {
+    const session = await getSession({ req });
+
+    if (!session) {
+      throw new AuthenticationError('No authenticated');
+    }
+  } catch (error) {
+    return res.status(error.statusCode).json({
+      success: false,
+      message: error.message,
+    });
+  }
 
   switch (req.method) {
     case 'PUT':
