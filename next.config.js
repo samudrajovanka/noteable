@@ -14,19 +14,6 @@ module.exports = (phase) => {
         SECRET_KEY: process.env.SECRET_KEY_DEV,
         CALLBACK_URL: 'http://localhost:3000',
       },
-      async headers() {
-        return [
-          {
-            source: '/:path*',
-            headers: [
-              {
-                key: 'x-api-key',
-                value: process.env.API_KEY_DEV,
-              },
-            ],
-          },
-        ];
-      },
     };
   }
 
@@ -41,19 +28,6 @@ module.exports = (phase) => {
       GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
       SECRET_KEY: process.env.SECRET_KEY,
       CALLBACK_URL: 'https://noteable-task.vercel.app/',
-    },
-    async headers() {
-      return [
-        {
-          source: '/:path*',
-          headers: [
-            {
-              key: 'x-api-key',
-              value: process.env.API_KEY,
-            },
-          ],
-        },
-      ];
     },
   };
 };
