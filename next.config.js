@@ -28,6 +28,7 @@ module.exports = (phase) => {
       GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
       SECRET_KEY: process.env.SECRET_KEY,
       CALLBACK_URL: 'https://noteable-task.vercel.app/',
+      NEXTAUTH_URL: 'https://nextauth.vercel.app/api/auth',
     },
   };
 };
