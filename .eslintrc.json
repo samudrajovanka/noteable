@@ -33,6 +33,7 @@
     "camelcase": "off",
     "object-curly-newline": "off",
     "import/no-cycle": "off",
-    "operator-linebreak": "off"
+    "operator-linebreak": "off",
+    "import/no-extraneous-dependencies": "off"
   }
 }
