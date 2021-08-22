@@ -16,14 +16,16 @@ const UserSchema = new Schema({
     type: String,
     required: true,
   },
-  note_id: {
+  notes_id: [{
     type: Schema.Types.ObjectId,
     ref: 'Note',
-  },
-  project_id: {
+    maxItems: 30,
+  }],
+  projects_id: [{
     type: Schema.Types.ObjectId,
     ref: 'Project',
-  },
+    maxItems: 20,
+  }],
   created_at: {
     type: Date,
     default: Date.now(),
