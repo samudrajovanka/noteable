@@ -32,6 +32,7 @@
     "no-param-reassign": ["error", { "props": false }],
     "camelcase": "off",
     "object-curly-newline": "off",
-    "import/no-cycle": "off"
+    "import/no-cycle": "off",
+    "operator-linebreak": "off"
   }
 }
