@@ -5,7 +5,7 @@ function Layout({ children }) {
         {children}
       </main>
     </>
-  )
+  );
 }
 
 export default Layout;
