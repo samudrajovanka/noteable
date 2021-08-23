@@ -14,8 +14,14 @@ function Notification({ className }) {
     background = 'bg-na-red text-white';
   }
 
+  const handleClose = () => {
+    if (status !== 'pending') {
+      notificationCtx.hideNotification();
+    }
+  };
+
   return (
-    <div className={`${background} p-2 rounded ${className}`} onClick={notificationCtx.hideNotification}>
+    <div className={`${background} p-2 rounded ${className}`} onClick={handleClose}>
       {title}
     </div>
   );
