@@ -10,6 +10,9 @@ export default connectDb(NextAuth({
   session: {
     jwt: true,
   },
+  jwt: {
+    secret: process.env.SECRET_KEY,
+  },
   providers: [
     Providers.Credentials({
       async authorize(credentials) {
@@ -36,12 +39,15 @@ export default connectDb(NextAuth({
   database: process.env.MONGO_URI,
   callbacks: {
     async signIn(user, account, profile) {
-      if (account.provider === 'google' &&
-          profile.verified_email === true) {
-        return true;
+      if (account.provider === 'google') {
+        if (profile.verified_email === true) {
+          return true;
+        }
+
+        return false;
       }
 
-      return false;
+      return true;
     },
   },
-}));
+}), true);
