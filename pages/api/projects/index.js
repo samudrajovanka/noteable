@@ -9,8 +9,11 @@ import { getSession } from 'next-auth/client';
 async function handler(req, res) {
   const projectService = new ProjectService();
 
+  let session;
+  let emailUser;
   try {
-    const session = await getSession({ req });
+    session = await getSession({ req });
+    emailUser = session.user.email;
 
     if (!session) {
       throw new AuthenticationError('No authenticated');
@@ -25,7 +28,7 @@ async function handler(req, res) {
   switch (req.method) {
     case 'GET':
       try {
-        const projects = await projectService.getProjects();
+        const projects = await projectService.getProjects(emailUser);
 
         return res.status(200).json({
           success: true,
@@ -54,7 +57,7 @@ async function handler(req, res) {
         projectValidation.validateProjectPayload({ name, color });
         taskValidation.validateTasksPayload({ tasks });
 
-        const projectId = await projectService.createProject({ name, tasks, color });
+        const projectId = await projectService.createProject(emailUser, { name, tasks, color });
 
         return res.status(201).json({
           success: true,

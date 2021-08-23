@@ -4,10 +4,11 @@ import Task from '@models/TaskModel';
 import ProjectService from './ProjectService';
 
 class TaskService {
-  async createTask({ name }) {
+  async createTask(email, { name }) {
     const dateNow = Date.now();
 
     const newTask = new Task({
+      owner: email,
       name,
       created_at: dateNow,
       updated_at: dateNow,
@@ -18,9 +19,10 @@ class TaskService {
     return task._id;
   }
 
-  async updateTask(id, { name, done }) {
-    const task = await Task.findById(id);
+  async updateTask(email, id, { name, done }) {
+    const tasks = await Task.find({ owner: email, _id: id });
 
+    const task = tasks[0];
     if (!task) {
       throw new NotFoundError('Task not found');
     }
@@ -31,14 +33,15 @@ class TaskService {
     await task.save();
   }
 
-  async deleteTask(projectId, taskId, { deleteAll }) {
-    const task = await Task.findById(taskId);
+  async deleteTask(email, projectId, taskId, { deleteAll }) {
+    const tasks = await Task.find({ owner: email, _id: taskId });
 
+    const task = tasks[0];
     if (!task) {
       throw new NotFoundError('Task not found');
     }
 
-    const project = await new ProjectService().getProjectById(projectId);
+    const project = await new ProjectService().getProjectById(email, projectId);
 
     if (!deleteAll) {
       if (project.tasks.length - 1 === 0) {

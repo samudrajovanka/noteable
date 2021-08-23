@@ -4,17 +4,24 @@ import { mapNoteToModel } from '@lib/formatData';
 import Note from '@models/NoteModel';
 
 class NoteService {
-  async getNotes() {
-    const notes = await Note.find().sort({ created_at: 'desc' });
+  async getNotes(email) {
+    const notes = await Note.find({ owner: email }).sort({ created_at: 'desc' });
     const notesFormated = notes.map((note) => mapNoteToModel(note));
 
     return notesFormated;
   }
 
-  async createNote({ title, description, color }) {
+  async createNote(email, { title, description, color }) {
+    const notesExist = await Note.find({ owner: email });
+
+    if (notesExist.length + 1 > 31) {
+      throw new InvariantError('Note is maximum 31 items');
+    }
+
     const dateNow = Date.now();
 
     const newNote = new Note({
+      owner: email,
       title,
       description,
       color,
@@ -31,9 +38,10 @@ class NoteService {
     return note._id;
   }
 
-  async getNoteById(id) {
-    const note = await Note.findById(id);
+  async getNoteById(email, id) {
+    const notes = await Note.find({ owner: email, _id: id });
 
+    const note = notes[0];
     if (!note) {
       throw new NotFoundError('Note not found');
     }
@@ -41,9 +49,10 @@ class NoteService {
     return mapNoteToModel(note);
   }
 
-  async updateNote(id, { title, description, color, pinned }) {
-    const note = await Note.findById(id);
+  async updateNote(email, id, { title, description, color, pinned }) {
+    const notes = await Note.find({ owner: email, _id: id });
 
+    const note = notes[0];
     if (!note) {
       throw new NotFoundError('Note not found');
     }
@@ -56,9 +65,10 @@ class NoteService {
     await note.save();
   }
 
-  async deleteNote(id) {
-    const note = await Note.findById(id);
+  async deleteNote(email, id) {
+    const notes = await Note.find({ owner: email, _id: id });
 
+    const note = notes[0];
     if (!note) {
       throw new NotFoundError('Note not found');
     }

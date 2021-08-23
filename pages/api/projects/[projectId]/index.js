@@ -9,8 +9,11 @@ import { getSession } from 'next-auth/client';
 async function handler(req, res) {
   const projectService = new ProjectService();
 
+  let session;
+  let emailUser;
   try {
-    const session = await getSession({ req });
+    session = await getSession({ req });
+    emailUser = session.user.email;
 
     if (!session) {
       throw new AuthenticationError('No authenticated');
@@ -27,7 +30,7 @@ async function handler(req, res) {
       try {
         const { projectId } = req.query;
 
-        const project = await projectService.getProjectById(projectId);
+        const project = await projectService.getProjectById(emailUser, projectId);
 
         return res.status(200).json({
           success: true,
@@ -64,7 +67,7 @@ async function handler(req, res) {
         projectValidation.validateProjectUpdatePayload({ name, status, color });
         taskValidation.validateTasksUpdatePayload({ tasks });
 
-        await projectService.updateProject(projectId, { name, status, tasks, color });
+        await projectService.updateProject(emailUser, projectId, { name, status, tasks, color });
 
         return res.status(200).json({
           success: true,
@@ -87,7 +90,7 @@ async function handler(req, res) {
       try {
         const { projectId } = req.query;
 
-        await projectService.deleteProject(projectId);
+        await projectService.deleteProject(emailUser, projectId);
 
         return res.status(200).json({
           success: true,

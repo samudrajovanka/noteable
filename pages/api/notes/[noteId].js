@@ -8,8 +8,12 @@ import { getSession } from 'next-auth/client';
 async function handler(req, res) {
   const noteService = new NoteService();
 
+  let session;
+  let emailUser;
   try {
-    const session = await getSession({ req });
+    session = await getSession({ req });
+
+    emailUser = session.user.email;
 
     if (!session) {
       throw new AuthenticationError('No authenticated');
@@ -26,7 +30,7 @@ async function handler(req, res) {
       try {
         const { noteId } = req.query;
 
-        const note = await noteService.getNoteById(noteId);
+        const note = await noteService.getNoteById(emailUser, noteId);
 
         return res.status(200).json({
           success: true,
@@ -62,7 +66,7 @@ async function handler(req, res) {
 
         noteValidation.validateNoteUpdatePayload(req.body);
 
-        await noteService.updateNote(noteId, {
+        await noteService.updateNote(emailUser, noteId, {
           title, description, color, pinned,
         });
 
@@ -87,7 +91,7 @@ async function handler(req, res) {
       try {
         const { noteId } = req.query;
 
-        await noteService.deleteNote(noteId);
+        await noteService.deleteNote(emailUser, noteId);
 
         return res.status(200).json({
           success: true,
