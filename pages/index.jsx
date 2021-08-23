@@ -2,7 +2,7 @@ import { signOut, getSession } from 'next-auth/client';
 
 function HomePage() {
   const handleLogout = () => {
-    signOut();
+    signOut({ callbackUrl: '/auth' });
   };
 
   return (
