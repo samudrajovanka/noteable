@@ -8,9 +8,12 @@ import { getSession } from 'next-auth/client';
 async function handler(req, res) {
   const noteService = new NoteService();
 
+  let session;
+  let emailUser;
   try {
-    const session = await getSession({ req });
+    session = await getSession({ req });
 
+    emailUser = session.user.email;
     if (!session) {
       throw new AuthenticationError('No authenticated');
     }
@@ -24,7 +27,7 @@ async function handler(req, res) {
   switch (req.method) {
     case 'GET':
       try {
-        const notes = await noteService.getNotes();
+        const notes = await noteService.getNotes(emailUser);
 
         return res.status(200).json({
           success: true,
@@ -52,7 +55,7 @@ async function handler(req, res) {
 
         noteValidation.validateNotePayload(req.body);
 
-        const noteId = await noteService.createNote({ title, description, color });
+        const noteId = await noteService.createNote(emailUser, { title, description, color });
 
         return res.status(201).json({
           success: true,

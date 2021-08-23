@@ -3,6 +3,10 @@ import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
 const NoteSchema = new Schema({
+  owner: {
+    type: String,
+    required: true,
+  },
   title: {
     type: String,
     required: true,
