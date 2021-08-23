@@ -50,4 +50,4 @@ export default connectDb(NextAuth({
       return true;
     },
   },
-}), { login: true });
+}), true);
