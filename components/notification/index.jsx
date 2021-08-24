@@ -4,14 +4,22 @@ import { useContext } from 'react';
 function Notification({ className }) {
   const notificationCtx = useContext(NotificationContext);
   const { title, status } = notificationCtx.notification;
-  let background = '';
+  const { isShow } = notificationCtx;
 
+  let background = '';
   if (status === 'success') {
-    background = 'bg-na-gren text-white';
+    background = 'bg-na-green text-white';
   } else if (status === 'pending') {
     background = 'bg-blue-300 text-white';
   } else if (status === 'error') {
     background = 'bg-na-red text-white';
+  }
+
+  let displayShow = '';
+  if (isShow) {
+    displayShow = 'inline-block';
+  } else {
+    displayShow = 'hidden';
   }
 
   const handleClose = () => {
@@ -21,7 +29,7 @@ function Notification({ className }) {
   };
 
   return (
-    <div className={`${background} p-2 rounded ${className}`} onClick={handleClose}>
+    <div className={`${background} ${displayShow} p-2 rounded w-full ${className}`} onClick={handleClose}>
       {title}
     </div>
   );
