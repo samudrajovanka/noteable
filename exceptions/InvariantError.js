@@ -1,8 +1,8 @@
 import ClientError from './ClientError';
 
 class InvariantError extends ClientError {
-  constructor(message) {
-    super(message);
+  constructor(message, type = null) {
+    super(message, type);
     this.name = 'Invariant Error';
   }
 }

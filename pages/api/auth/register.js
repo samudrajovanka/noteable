@@ -1,4 +1,5 @@
 import ClientError from '@exceptions/ClientError';
+import InvariantError from '@exceptions/InvariantError';
 import connectDb from '@lib/connectDb';
 import UserService from '@services/databases/UserService';
 import userValidation from '@validations/user';
@@ -11,8 +12,13 @@ async function handler(req, res) {
       try {
         const { fullname, email, password } = req.body;
 
+        if (/[^A-Za-z ]/g.test(fullname)) {
+          throw new InvariantError('"fullname" Full name must be alphabet', 'VALIDATION');
+        }
+
         userValidation.validateUserPayload(req.body);
 
+        await userService.emailExists(email);
         const userId = await userService.createUser({ fullname, email, password });
 
         return res.status(201).json({
@@ -27,6 +33,7 @@ async function handler(req, res) {
           return res.status(error.statusCode).json({
             success: false,
             message: error.message,
+            type: error.type,
           });
         }
 

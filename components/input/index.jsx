@@ -1,30 +1,25 @@
 import PropTypes from 'prop-types';
 
-function Input({ type, placeholder, id, value, onChange, required }) {
+function Input({ error, ...props }) {
+  let borderColor = 'focus:border-na-green';
+  if (error) {
+    borderColor = 'border-na-red';
+  }
+
   return (
     <input
-      type={type}
-      placeholder={placeholder}
-      id={id}
-      className="border rounded-md p-2 placeholder-na-gray::placeholder
-        focus:outline-none focus:border-na-green transition-colors"
-      value={value}
-      onChange={onChange}
-      required={required}
+      className={`border ${borderColor} rounded-md p-2 placeholder-na-gray::placeholder
+        focus:outline-none transition-colors`}
+      {...props}
     />
   );
 }
-
-Input.defaultProps = {
-  required: false,
-};
 
 Input.propTypes = {
   placeholder: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
-  required: PropTypes.bool,
 };
 
 export default Input;
