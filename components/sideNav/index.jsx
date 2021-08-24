@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import Logo from '@components/logo';
 import NavItem from '@components/navItem';
-import Minimize from '@components/icon/minimize';
+import MinimizeIcon from '@components/icon/minimize';
 import { signOut } from 'next-auth/client';
 import { useState } from 'react';
 
@@ -26,7 +26,7 @@ function SideNav({ onClose, onOpen }) {
 
   return (
     <nav className="bg-na-light-green w-full h-screen py-10 px-4 flex flex-col">
-      <i className={`${isCollapse && 'mr-2'} self-end cursor-pointer transition-transform duration-500 ${isCollapse && 'transform rotate-180'}`} onClick={toggleCollapse}><Minimize /></i>
+      <i className={`${isCollapse && 'mr-2'} self-end cursor-pointer transition-transform duration-500 ${isCollapse && 'transform rotate-180'}`} onClick={toggleCollapse}><MinimizeIcon /></i>
 
       <div className="mt-4 flex flex-col gap-5 h-full">
         <Logo noTitle={isCollapse} />
