@@ -5,10 +5,22 @@ function HomePage() {
     signOut();
   };
 
+  // return (
+  //   <>
+  //     <h1>Hello Noteable</h1>
+  //     <button onClick={handleLogout}>sign out</button>
+  //   </>
+  // );
+
   return (
+    // <div className="flex">
+    //   <div className="bg-na-red w-1/5 h-screen sticky top-0">1</div>
+    //   <div className="w-full">
+    //     <div className="bg-na-green h-12">2</div>
+    //     <div className="bg-na-yellow">3</div>
+    //   </div>
+    // </div>
     <>
-      <h1>Hello Noteable</h1>
-      <button onClick={handleLogout}>sign out</button>
     </>
   );
 }

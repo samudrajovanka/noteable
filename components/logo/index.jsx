@@ -1,14 +1,18 @@
-import Image from 'next/image';
+import NoteableIcon from '@components/icon/noteable';
 
-function Logo() {
+function Logo({ noTitle }) {
+  let hiddenTitleClass = 'w-full';
+  let container = 'gap-2';
+
+  if (noTitle) {
+    hiddenTitleClass = 'w-0 overflow-hidden';
+    container = '';
+  }
+
   return (
-    <div className="flex items-center gap-2">
-      <Image
-        src="/favicon.svg"
-        width={40}
-        height={40}
-      />
-      <p className="text-xl font-bold text-na-green">Noteable</p>
+    <div className={`flex items-center ${container}`}>
+      <NoteableIcon />
+      <p className={`text-xl font-bold text-na-green transition-all duration-500 inline-block ${hiddenTitleClass}`}>Noteable</p>
     </div>
   );
 }

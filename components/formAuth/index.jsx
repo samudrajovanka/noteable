@@ -42,14 +42,16 @@ function FormAuth() {
   const handlerPassword = (e) => {
     setPassword(e.target.value);
 
-    if (e.target.value.length === 0) {
-      setErrorRegister((curEl) => ({ ...curEl, password: '' }));
-    } else if (e.target.value.length < 8) {
-      setErrorRegister((curEl) => ({ ...curEl, password: 'Password min 8 character' }));
-    } else if (e.target.value.length > 100) {
-      setErrorRegister((curEl) => ({ ...curEl, password: 'Password max 100 character' }));
-    } else {
-      setErrorRegister((curEl) => ({ ...curEl, password: '' }));
+    if (authType === 'register') {
+      if (e.target.value.length === 0) {
+        setErrorRegister((curEl) => ({ ...curEl, password: '' }));
+      } else if (e.target.value.length < 8) {
+        setErrorRegister((curEl) => ({ ...curEl, password: 'Password min 8 character' }));
+      } else if (e.target.value.length > 100) {
+        setErrorRegister((curEl) => ({ ...curEl, password: 'Password max 100 character' }));
+      } else {
+        setErrorRegister((curEl) => ({ ...curEl, password: '' }));
+      }
     }
   };
 

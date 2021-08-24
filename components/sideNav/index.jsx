@@ -1,37 +1,49 @@
 import { useRouter } from 'next/router';
 import Logo from '@components/logo';
-import NavItems from '@components/navItems';
-import Minimize from '@components/icon/Minimize';
-import Exit from '@components/icon/Exit';
+import NavItem from '@components/navItem';
+import Minimize from '@components/icon/minimize';
+import { signOut } from 'next-auth/client';
+import { useState } from 'react';
 
-export default function sideNav() {
+function SideNav({ onClose, onOpen }) {
+  const [isCollapse, setIsCollapse] = useState(false);
   const router = useRouter();
   const path = router.pathname.split('/');
+
+  const toggleCollapse = () => {
+    setIsCollapse((curEl) => !curEl);
+
+    if (!isCollapse) {
+      onClose();
+    } else {
+      onOpen();
+    }
+  };
+
+  const handlerLogout = () => {
+    signOut();
+  };
+
   return (
-    <div
-      id="container"
-      className="bg-na-light-green w-22 h-screen pt-16 pl-12 pr-12 pb-12 flex flex-col justify-between w-1/6 items-left"
-    >
-      <div>
-        <a href="test" className="flex justify-end mb-12">
-          <Minimize />
-        </a>
-        <Logo />
-        <div id="garis" className="bg-na-green w-22 h-1 mt-4 mb-4" />
-        <NavItems text="Overview" isActive={path[0] === 'overview'} />
-        <NavItems text="Projects" isActive={path[0] === 'projects'} />
-        <NavItems text="Notes" isActive={path[0] === 'notes'} />
+    <nav className="bg-na-light-green w-full h-screen py-10 px-4 flex flex-col">
+      <i className={`${isCollapse && 'mr-2'} self-end cursor-pointer transition-transform duration-500 ${isCollapse && 'transform rotate-180'}`} onClick={toggleCollapse}><Minimize /></i>
+
+      <div className="mt-4 flex flex-col gap-5 h-full">
+        <Logo noTitle={isCollapse} />
+
+        <div className="h-0.5 w-full bg-na-green rounded-md" />
+
+        <div className="flex flex-col h-full justify-between">
+          <div className="flex flex-col gap-3">
+            <NavItem href="/" text="Overview" isActive={router.pathname === '/'} noTitle={isCollapse} />
+            <NavItem href="/" text="Projects" isActive={path[0] === 'projects'} noTitle={isCollapse} />
+            <NavItem href="/" text="Notes" isActive={path[0] === 'notes'} noTitle={isCollapse} />
+          </div>
+          <NavItem text="Logout" onClick={handlerLogout} noTitle={isCollapse} />
+        </div>
       </div>
-      <div>
-        <ul>
-          <li>
-            <a href="test" className="flex gap-3 items-center">
-              <Exit />
-              Logout
-            </a>
-          </li>
-        </ul>
-      </div>
-    </div>
+    </nav>
   );
 }
+
+export default SideNav;

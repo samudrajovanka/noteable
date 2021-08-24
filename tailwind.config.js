@@ -17,6 +17,7 @@ module.exports = {
     },
   },
   variants: {
+    fill: ['hover'],
     extend: {},
   },
   plugins: [],

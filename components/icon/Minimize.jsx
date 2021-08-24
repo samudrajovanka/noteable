@@ -1,4 +1,4 @@
-export default function Minimize() {
+function MinimizeIcon() {
   return (
     <svg
       width="24"
@@ -16,3 +16,5 @@ export default function Minimize() {
     </svg>
   );
 }
+
+export default MinimizeIcon;
