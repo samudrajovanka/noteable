@@ -1,5 +1,6 @@
 import InvariantError from '@exceptions/InvariantError';
 import NotFoundError from '@exceptions/NotFoundError';
+import { MAX_ERR } from '@lib/constantErrorType';
 import { mapProjectToModel, mapProjectToModelFull } from '@lib/formatData';
 import Project from '@models/ProjectModel';
 import TaskService from './TaskService';
@@ -36,7 +37,7 @@ class ProjectService {
     const projectsExist = await Project.find({ owner: email });
 
     if (projectsExist.length + 1 > 31) {
-      throw new InvariantError('Project is maximum 31 items');
+      throw new InvariantError('Project is maximum 31 items', MAX_ERR);
     }
 
     const tasksId = await this.createTasks(email, tasks);
@@ -81,7 +82,7 @@ class ProjectService {
 
     if (tasks) {
       if (project.tasks_id.length + tasks.length > 31) {
-        throw new InvariantError('Task is maximum 30 items');
+        throw new InvariantError('Task is maximum 30 items', MAX_ERR);
       }
     }
 

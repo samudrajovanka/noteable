@@ -1,4 +1,5 @@
 import InvariantError from '@exceptions/InvariantError';
+import { EXIST_DATA } from '@lib/constantErrorType';
 import User from '@models/UserModel';
 import bcrypt from 'bcrypt';
 
@@ -25,7 +26,7 @@ class UserService {
     const user = await User.findOne({ email });
 
     if (user) {
-      throw new InvariantError('Email already exists', 'EMAIL_EXIST');
+      throw new InvariantError('Email already exists', EXIST_DATA);
     }
 
     return false;

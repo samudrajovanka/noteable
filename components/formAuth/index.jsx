@@ -7,6 +7,7 @@ import { signIn } from 'next-auth/client';
 import { useRouter } from 'next/router';
 import NotificationContext from '@context/notification-context';
 import { fetchApi } from '@lib/fetching';
+import { EXIST_DATA, VALIDATION_ERR } from '@lib/constantErrorType';
 
 function FormAuth() {
   const [email, setEmail] = useState('');
@@ -94,9 +95,9 @@ function FormAuth() {
     const result = await fetchApi('/api/auth/register', 'POST', body);
 
     if (!result.success) {
-      if (result.type === 'EMAIL_EXIST') {
+      if (result.type === EXIST_DATA) {
         setErrorRegister((curEl) => ({ ...curEl, email: result.message }));
-      } else if (result.type === 'VALIDATION') {
+      } else if (result.type === VALIDATION_ERR) {
         const errSplit = result.message.split('"');
         if (errSplit[1] === 'password') {
           setErrorRegister((curEl) => ({ ...curEl, password: errSplit[2] }));

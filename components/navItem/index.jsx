@@ -25,13 +25,13 @@ function NavItem({ text, isActive, href, noTitle, onClick }) {
   }
 
   if (text === 'Overview') {
-    icon = <OverviewIcon className={`${styleIcon} ${style.icon} `} />;
+    icon = <OverviewIcon className={`fill-current ${styleIcon} ${style.icon} `} />;
   } else if (text === 'Projects') {
-    icon = <ProjectIcon className={`${styleIcon} ${style.icon}`} />;
+    icon = <ProjectIcon className={`fill-current ${styleIcon} ${style.icon}`} />;
   } else if (text === 'Notes') {
-    icon = <NoteIcon className={`${styleIcon} ${style.icon} `} />;
+    icon = <NoteIcon className={`fill-current ${styleIcon} ${style.icon} `} />;
   } else if (text === 'Logout') {
-    icon = <ExitIcon className={`${styleIcon} ${style.icon} `} />;
+    icon = <ExitIcon className={`fill-current ${styleIcon} ${style.icon} `} />;
   }
 
   if (href) {
@@ -51,13 +51,24 @@ function NavItem({ text, isActive, href, noTitle, onClick }) {
       onClick={onClick}
     >
       {icon}
-      <p className={`inline-block ${hiddenTitleClass} ${style.title}`}>{text}</p>
+      <p className={`inline-block text-left ${hiddenTitleClass} ${style.title}`}>{text}</p>
     </button>
   );
 }
 
+NavItem.defaultProps = {
+  href: null,
+  noTitle: false,
+  isActive: false,
+  onClick: () => {},
+};
+
 NavItem.propTypes = {
   text: PropTypes.string.isRequired,
+  href: PropTypes.string,
+  isActive: PropTypes.bool,
+  noTitle: PropTypes.bool,
+  onClick: PropTypes.func,
 };
 
 export default NavItem;

@@ -1,4 +1,5 @@
 import SideNav from '@components/sideNav';
+import TopNav from '@components/topNav';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 
@@ -30,7 +31,7 @@ function Layout({ children }) {
         <SideNav onClose={closeSideNav} onOpen={openSideNav} />
       </div>
       <div className="w-full">
-        <div className="bg-na-green h-12">2</div>
+        <TopNav />
         <main className="bg-na-yellow">3</main>
       </div>
     </div>

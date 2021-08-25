@@ -15,11 +15,16 @@ function Input({ error, ...props }) {
   );
 }
 
+Input.defaultProps = {
+  error: null,
+};
+
 Input.propTypes = {
   placeholder: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
+  error: PropTypes.string,
 };
 
 export default Input;

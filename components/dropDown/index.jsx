@@ -1,10 +1,12 @@
-function DropDown(){
-    return(
-        <div className="p-3 flex flex-col gap-2 border-na-gray border-2 rounded-md text-black bg-white">
-            <p className="text-left">New Project</p>
-            <p className="text-left">New Note</p>
-        </div>
-    );
+import DropDownItem from '@components/dropDownItem';
+
+function DropDown() {
+  return (
+    <div className="flex flex-col border-na-gray border rounded-md overflow-hidden text-black bg-white">
+      <DropDownItem href="/">New project</DropDownItem>
+      <DropDownItem href="/">New note</DropDownItem>
+    </div>
+  );
 }
 
 export default DropDown;

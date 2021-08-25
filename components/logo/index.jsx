@@ -1,4 +1,5 @@
 import NoteableIcon from '@components/icon/noteable';
+import PropTypes from 'prop-types';
 
 function Logo({ noTitle }) {
   let hiddenTitleClass = 'w-full';
@@ -16,5 +17,13 @@ function Logo({ noTitle }) {
     </div>
   );
 }
+
+Logo.defaultProps = {
+  noTitle: false,
+};
+
+Logo.propTypes = {
+  noTitle: PropTypes.bool,
+};
 
 export default Logo;

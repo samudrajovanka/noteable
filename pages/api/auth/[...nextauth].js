@@ -28,7 +28,7 @@ export default connectDb(NextAuth({
           throw new AuthenticationError('Email or Password incorrect');
         }
 
-        return { email: user.email };
+        return { name: user.fullname, email: user.email };
       },
     }),
     Providers.Google({

@@ -1,4 +1,4 @@
-function OverviewIcon({ className }) {
+function OverviewIcon({ ...props }) {
   return (
     <svg
       width="24"
@@ -6,7 +6,7 @@ function OverviewIcon({ className }) {
       viewBox="0 0 24 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className={`fill-current ${className}`}
+      {...props}
     >
       <path
         fillRule="evenodd"
@@ -18,7 +18,7 @@ function OverviewIcon({ className }) {
 }
 
 OverviewIcon.defaultProps = {
-  className: 'text-na-gray',
+  className: 'fill-current text-na-gray',
 };
 
 export default OverviewIcon;

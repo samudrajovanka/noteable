@@ -1,5 +1,6 @@
 import InvariantError from '@exceptions/InvariantError';
 import NotFoundError from '@exceptions/NotFoundError';
+import { MIN_ERR } from '@lib/constantErrorType';
 import Task from '@models/TaskModel';
 import ProjectService from './ProjectService';
 
@@ -45,7 +46,7 @@ class TaskService {
 
     if (!deleteAll) {
       if (project.tasks.length - 1 === 0) {
-        throw new InvariantError('Task is minimum 1 items');
+        throw new InvariantError('Task is minimum 1 items', MIN_ERR);
       }
     }
 

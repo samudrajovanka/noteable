@@ -1,5 +1,6 @@
 import NotificationContext from '@context/notification-context';
 import { useContext } from 'react';
+import PropTypes from 'prop-types';
 
 function Notification({ className }) {
   const notificationCtx = useContext(NotificationContext);
@@ -34,5 +35,13 @@ function Notification({ className }) {
     </div>
   );
 }
+
+Notification.defaultProps = {
+  className: null,
+};
+
+Notification.propTypes = {
+  className: PropTypes.string,
+};
 
 export default Notification;

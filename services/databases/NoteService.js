@@ -1,5 +1,6 @@
 import InvariantError from '@exceptions/InvariantError';
 import NotFoundError from '@exceptions/NotFoundError';
+import { MAX_ERR } from '@lib/constantErrorType';
 import { mapNoteToModel } from '@lib/formatData';
 import Note from '@models/NoteModel';
 
@@ -15,7 +16,7 @@ class NoteService {
     const notesExist = await Note.find({ owner: email });
 
     if (notesExist.length + 1 > 31) {
-      throw new InvariantError('Note is maximum 31 items');
+      throw new InvariantError('Note is maximum 31 items', MAX_ERR);
     }
 
     const dateNow = Date.now();
@@ -30,10 +31,6 @@ class NoteService {
     });
 
     const note = await newNote.save();
-
-    if (!note) {
-      throw new InvariantError('Error create note. Try again');
-    }
 
     return note._id;
   }

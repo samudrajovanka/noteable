@@ -1,6 +1,8 @@
 import ClientError from '@exceptions/ClientError';
 import InvariantError from '@exceptions/InvariantError';
 import connectDb from '@lib/connectDb';
+import { VALIDATION_ERR } from '@lib/constantErrorType';
+import { clientErrRes, notAllowedErrRes, serverErrRes } from '@lib/errorResponse';
 import UserService from '@services/databases/UserService';
 import userValidation from '@validations/user';
 
@@ -13,7 +15,7 @@ async function handler(req, res) {
         const { fullname, email, password } = req.body;
 
         if (/[^A-Za-z ]/g.test(fullname)) {
-          throw new InvariantError('"fullname" Full name must be alphabet', 'VALIDATION');
+          throw new InvariantError('"fullname" Full name must be alphabet', VALIDATION_ERR);
         }
 
         userValidation.validateUserPayload(req.body);
@@ -30,24 +32,14 @@ async function handler(req, res) {
         });
       } catch (error) {
         if (error instanceof ClientError) {
-          return res.status(error.statusCode).json({
-            success: false,
-            message: error.message,
-            type: error.type,
-          });
+          return res.status(error.statusCode).json(clientErrRes(error));
         }
 
-        return res.status(500).json({
-          success: false,
-          message: error.message,
-        });
+        return res.status(500).json(serverErrRes(error));
       }
 
     default:
-      return res.status(400).json({
-        success: false,
-        message: 'Method not allowed',
-      });
+      return res.status(400).json(notAllowedErrRes());
   }
 }
 

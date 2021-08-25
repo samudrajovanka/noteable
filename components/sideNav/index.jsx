@@ -4,6 +4,7 @@ import NavItem from '@components/navItem';
 import MinimizeIcon from '@components/icon/minimize';
 import { signOut } from 'next-auth/client';
 import { useState } from 'react';
+import PropTypes from 'prop-types';
 
 function SideNav({ onClose, onOpen }) {
   const [isCollapse, setIsCollapse] = useState(false);
@@ -45,5 +46,10 @@ function SideNav({ onClose, onOpen }) {
     </nav>
   );
 }
+
+SideNav.propTypes = {
+  onClose: PropTypes.func.isRequired,
+  onOpen: PropTypes.func.isRequired,
+};
 
 export default SideNav;

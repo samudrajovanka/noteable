@@ -1,4 +1,5 @@
 import InvariantError from '@exceptions/InvariantError';
+import { VALIDATION_ERR } from '@lib/constantErrorType';
 import { UserPayloadSchema } from './schema';
 
 const userValidation = {
@@ -6,7 +7,7 @@ const userValidation = {
     const validationResult = UserPayloadSchema.validate(payload);
 
     if (validationResult.error) {
-      throw new InvariantError(validationResult.error.message, 'VALIDATION');
+      throw new InvariantError(validationResult.error.message, VALIDATION_ERR);
     }
   },
 };

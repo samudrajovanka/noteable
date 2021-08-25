@@ -1,6 +1,7 @@
 import AuthenticationError from '@exceptions/Authentication';
 import ClientError from '@exceptions/ClientError';
 import connectDb from '@lib/connectDb';
+import { clientErrRes, notAllowedErrRes, serverErrRes } from '@lib/errorResponse';
 import ProjectService from '@services/databases/ProjectService';
 import TaskService from '@services/databases/TaskService';
 import taskValidation from '@validations/task';
@@ -20,10 +21,11 @@ async function handler(req, res) {
       throw new AuthenticationError('No authenticated');
     }
   } catch (error) {
-    return res.status(error.statusCode).json({
-      success: false,
-      message: error.message,
-    });
+    if (error instanceof ClientError) {
+      return res.status(error.statusCode).json(clientErrRes(error));
+    }
+
+    return res.status(500).json(serverErrRes(error));
   }
 
   switch (req.method) {
@@ -43,16 +45,10 @@ async function handler(req, res) {
         });
       } catch (error) {
         if (error instanceof ClientError) {
-          return res.status(error.statusCode).json({
-            success: false,
-            message: error.message,
-          });
+          return res.status(error.statusCode).json(clientErrRes(error));
         }
 
-        return res.status(500).json({
-          success: false,
-          message: error.message,
-        });
+        return res.status(500).json(serverErrRes(error));
       }
     case 'DELETE':
       try {
@@ -67,22 +63,13 @@ async function handler(req, res) {
         });
       } catch (error) {
         if (error instanceof ClientError) {
-          return res.status(error.statusCode).json({
-            success: false,
-            message: error.message,
-          });
+          return res.status(error.statusCode).json(clientErrRes(error));
         }
 
-        return res.status(500).json({
-          success: false,
-          message: error.message,
-        });
+        return res.status(500).json(serverErrRes(error));
       }
     default:
-      return res.status(400).json({
-        success: false,
-        message: 'Method not allowed',
-      });
+      return res.status(400).json(notAllowedErrRes());
   }
 }
 

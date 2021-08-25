@@ -1,8 +1,9 @@
+import { AUTHENTICATION_ERR } from '@lib/constantErrorType';
 import ClientError from './ClientError';
 
 class AuthenticationError extends ClientError {
-  constructor(message) {
-    super(message, 401);
+  constructor(message, type = AUTHENTICATION_ERR) {
+    super(message, type, 401);
     this.name = 'Authentication Error';
   }
 }

@@ -1,4 +1,4 @@
-function ExitIcon({ className }) {
+function ExitIcon({ ...props }) {
   return (
     <svg
       width="24"
@@ -6,7 +6,7 @@ function ExitIcon({ className }) {
       viewBox="0 0 18 18"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className={`fill-current ${className}`}
+      {...props}
     >
       <path
         fillRule="evenodd"
@@ -18,7 +18,7 @@ function ExitIcon({ className }) {
 }
 
 ExitIcon.defaultProps = {
-  className: 'text-na-gray',
+  className: 'fill-current text-na-gray',
 };
 
 export default ExitIcon;
