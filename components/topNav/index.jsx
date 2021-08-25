@@ -4,6 +4,7 @@ import DownArrowIcon from '@components/icon/downArrow';
 import PlusIcon from '@components/icon/plus';
 import { useEffect, useState } from 'react';
 import DropDown from '@components/dropDown';
+import DropDownItem from '@components/dropDownItem';
 
 function TopNav() {
   const [session, loading] = useSession();
@@ -32,14 +33,22 @@ function TopNav() {
       </div>
       <div className="flex gap-7">
         <div className="relative">
-          <button onClick={toogleDropDown} className="flex items-center">
+          <button
+            className="flex items-center"
+            onBlur={toogleDropDown}
+            onClick={toogleDropDown}
+            tabIndex="0"
+          >
             <PlusIcon className={`transition-transform transform ${activeDropDown ? 'rotate-45' : 'rotate-0'}`} />
             <DownArrowIcon className={`transition-transform transform ${activeDropDown ? 'rotate-180' : 'rotate-0'}`} />
           </button>
 
           {activeDropDown && (
             <div className="absolute top-7 -right-3 w-56 filter drop-shadow-xl">
-              <DropDown />
+              <DropDown>
+                <DropDownItem href="/">New project</DropDownItem>
+                <DropDownItem href="/">New note</DropDownItem>
+              </DropDown>
             </div>
           )}
         </div>

@@ -1,10 +1,9 @@
-import DropDownItem from '@components/dropDownItem';
+import style from './style.module.css';
 
-function DropDown() {
+function DropDown({ children }) {
   return (
-    <div className="flex flex-col border-na-gray border rounded-md overflow-hidden text-black bg-white">
-      <DropDownItem href="/">New project</DropDownItem>
-      <DropDownItem href="/">New note</DropDownItem>
+    <div className={`flex flex-col py-1 rounded-md overflow-hidden text-black bg-white ${style.dropdown}`}>
+      {children}
     </div>
   );
 }

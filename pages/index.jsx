@@ -4,8 +4,9 @@ import { getSession } from 'next-auth/client';
 function HomePage() {
   return (
     <GuardRoute>
-      <>
-      </>
+      <h1>
+        Hallo
+      </h1>
     </GuardRoute>
   );
 }

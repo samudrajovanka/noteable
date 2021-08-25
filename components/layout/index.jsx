@@ -32,7 +32,7 @@ function Layout({ children }) {
       </div>
       <div className="w-full">
         <TopNav />
-        <main className="bg-na-yellow">3</main>
+        <main className="bg-na-yellow">{children}</main>
       </div>
     </div>
   );
