@@ -13,6 +13,7 @@ module.exports = {
         'na-light-green': '#F0FFF9',
         'na-yellow': '#FFAF36',
         'na-red': '#FF4141',
+        'na-violet': '#8D33FF',
       },
     },
   },
