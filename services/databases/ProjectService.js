@@ -14,7 +14,6 @@ class ProjectService {
     const projects = await Project.find({ owner: email }).sort({ created_at: 'desc' })
       .populate('tasks_id');
 
-    console.log(projects);
     const projectsFormated = projects.map((project) => {
       const doneTasks = project.tasks_id.filter((task) => task.done);
       return mapProjectToModel({ ...project._doc, doneTasks });

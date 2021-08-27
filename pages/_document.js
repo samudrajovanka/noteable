@@ -13,9 +13,9 @@ class MyDocument extends Document {
       <Html lang="en">
         <Head>
           <meta name="description" content="Create your notes and projects easily with Noteable" />
-          <link rel="icon" href="/favicon.svg" />
+          <link rel="icon" href="/favicon.ico" />
         </Head>
-        <body>
+        <body className="text-na-black">
           <Main />
           <NextScript />
         </body>

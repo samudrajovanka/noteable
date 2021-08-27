@@ -11,6 +11,7 @@ module.exports = (phase) => {
         API_KEY: process.env.API_KEY_DEV,
         SECRET_KEY: process.env.SECRET_KEY_DEV,
         CALLBACK_URL: 'http://localhost:3000',
+        BASE_URL: 'http://localhost:3000/api',
       },
     };
   }
@@ -24,6 +25,7 @@ module.exports = (phase) => {
       API_KEY: process.env.API_KEY,
       SECRET_KEY: process.env.SECRET_KEY,
       CALLBACK_URL: 'https://noteable-task.vercel.app/',
+      BASE_URL: 'https://noteable-task.vercel.app/api',
     },
   };
 };

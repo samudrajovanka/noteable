@@ -92,7 +92,10 @@ function FormAuth() {
       password,
     };
 
-    const result = await fetchApi('/api/auth/register', 'POST', body);
+    const result = await fetchApi('/api/auth/register', {
+      method: 'POST',
+      body,
+    });
 
     if (!result.success) {
       if (result.type === EXIST_DATA) {
@@ -192,7 +195,7 @@ function FormAuth() {
               />
             </div>
 
-            <Button typeButton="submit" type="primary" color="success">
+            <Button typeButton="submit">
               {authType === 'login' ? 'Login' : 'Register'}
             </Button>
 

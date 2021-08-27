@@ -2,11 +2,10 @@ import Image from 'next/image';
 import Logo from '@components/logo';
 import FormAuth from '@components/formAuth';
 import { getSession } from 'next-auth/client';
-import GuestRoute from '@components/guestRoute';
 
 function AuthPage() {
   return (
-    <GuestRoute>
+    <>
       <div className="flex">
         <div className="w-2/5 relative h-screen overflow-hidden sticky top-0 bg-na-green rounded-r-3xl flex flex-col justify-center items-center gap-10">
           <div className="relative w-72 h-60">
@@ -42,7 +41,7 @@ function AuthPage() {
           </div>
         </div>
       </div>
-    </GuestRoute>
+    </>
   );
 }
 

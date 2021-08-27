@@ -39,7 +39,7 @@ function TopNav() {
             onClick={toogleDropDown}
             tabIndex="0"
           >
-            <PlusIcon className={`transition-transform transform ${activeDropDown ? 'rotate-45' : 'rotate-0'}`} />
+            <PlusIcon className="transition-transform transform" />
             <DownArrowIcon className={`transition-transform transform ${activeDropDown ? 'rotate-180' : 'rotate-0'}`} />
           </button>
 
