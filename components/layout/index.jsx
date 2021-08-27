@@ -32,7 +32,7 @@ function Layout({ children }) {
       </div>
       <div className="w-full">
         <TopNav />
-        <main className="px-6 py-5">{children}</main>
+        <main>{children}</main>
       </div>
     </div>
   );
