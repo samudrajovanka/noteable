@@ -5,6 +5,10 @@ function Button({ children, type, color, typeButton, onClick }) {
   if (type === 'primary') {
     if (color === 'success') {
       classNameButton = 'bg-na-green text-white hover:bg-green-500';
+    } else if (color === 'warning') {
+      classNameButton = 'bg-na-yellow text-white hover:bg-yellow-500';
+    } else if (color === 'danger') {
+      classNameButton = 'bg-na-red text-white hover:bg-red-500';
     }
   } else if (type === 'secondary') {
     if (color === 'success') {
