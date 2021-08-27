@@ -1,8 +1,8 @@
 import Link from 'next/link';
 import PropTypes from 'prop-types';
 import ExitIcon from '@components/icon/exit';
-import ProjectIcon from '@components/icon/projects';
-import NoteIcon from '@components/icon/notes';
+import ProjectIcon from '@components/icon/project';
+import NoteIcon from '@components/icon/note';
 import OverviewIcon from '@components/icon/overview';
 import style from './style.module.css';
 

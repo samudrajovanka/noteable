@@ -1,7 +1,8 @@
 .note_card:hover .icon {
-    visibility: visible;
+  visibility: visible;
+  opacity: 1;
 }
 
 .note_card:hover .button_container{
-    display: grid;
+  opacity: 1;
 }

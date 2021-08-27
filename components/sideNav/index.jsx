@@ -37,8 +37,8 @@ function SideNav({ onClose, onOpen }) {
         <div className="flex flex-col h-full justify-between">
           <div className="flex flex-col gap-3">
             <NavItem href="/" text="Overview" isActive={router.pathname === '/'} noTitle={isCollapse} />
-            <NavItem href="/" text="Projects" isActive={path[0] === 'projects'} noTitle={isCollapse} />
-            <NavItem href="/" text="Notes" isActive={path[0] === 'notes'} noTitle={isCollapse} />
+            <NavItem href="/projects" text="Projects" isActive={path[1] === 'projects'} noTitle={isCollapse} />
+            <NavItem href="/notes" text="Notes" isActive={path[1] === 'notes'} noTitle={isCollapse} />
           </div>
           <NavItem text="Logout" onClick={handlerLogout} noTitle={isCollapse} />
         </div>
