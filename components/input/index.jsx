@@ -10,7 +10,7 @@ function Input({ error, isLarge, ...props }) {
     return (
       <textarea
         className={`border ${borderColor} rounded-md p-2 placeholder-na-gray::placeholder
-          focus:outline-none transition-colors resize-none`}
+          focus:outline-none transition-colors resize-y`}
         {...props}
       />
     );
