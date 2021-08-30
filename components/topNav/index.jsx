@@ -27,7 +27,7 @@ function TopNav() {
   };
 
   return (
-    <div className="bg-na-green h-12 text-1xl py-3 px-6 text-white flex justify-between">
+    <div className="bg-na-green h-12 text-1xl py-3 px-6 text-white flex justify-between sticky top-0">
       <div>
         <p>{dateNow}</p>
       </div>
