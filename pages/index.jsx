@@ -4,10 +4,19 @@ import ListNote from '@components/listNote';
 import ListProject from '@components/listProject';
 import Subtitle from '@components/subtitle';
 import Title from '@components/title';
+import NotesContext from '@context/notesContext';
 import { fetchApi } from '@lib/fetching';
 import { getSession } from 'next-auth/client';
+import { useContext, useEffect } from 'react';
 
-function HomePage({ session, projectsUncomplete, notesPinned }) {
+function HomePage({ session, projectsUncomplete, initNotesPinned }) {
+  const notesCtx = useContext(NotesContext);
+  const { notesPinned, setNotesPinned } = notesCtx;
+
+  useEffect(() => {
+    setNotesPinned(initNotesPinned);
+  }, []);
+
   return (
     <>
       <Title>Hello {session.user.name}</Title>
@@ -21,20 +30,24 @@ function HomePage({ session, projectsUncomplete, notesPinned }) {
 
       <section className="mt-8">
         <Subtitle>Unfinished Projects</Subtitle>
-        {projectsUncomplete.length > 0 && (
-          <ListProject projects={projectsUncomplete} />
-        )}
+        <div className="mt-2">
+          {projectsUncomplete.length > 0 && (
+            <ListProject projects={projectsUncomplete} />
+          )}
+        </div>
         <Button href="/projects" type="secondary">See More Projects</Button>
       </section>
 
       <section className="mt-8">
         <Subtitle>Pinned Notes</Subtitle>
-        {notesPinned.length > 0 && (
-          <ListNote notes={notesPinned} />
-        )}
-        {notesPinned.length === 0 && (
-          <Button href="/notes" type="secondary">See More Notes</Button>
-        )}
+        <div className="mt-2">
+          {notesPinned.length > 0 && (
+            <ListNote notes={notesPinned} />
+          )}
+          {notesPinned.length === 0 && (
+            <Button href="/notes" type="secondary">See More Notes</Button>
+          )}
+        </div>
       </section>
     </>
   );
@@ -70,7 +83,7 @@ export async function getServerSideProps(context) {
     props: {
       session,
       projectsUncomplete,
-      notesPinned,
+      initNotesPinned: notesPinned,
     },
   };
 }

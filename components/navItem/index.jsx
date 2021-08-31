@@ -37,7 +37,9 @@ function NavItem({ text, isActive, href, noTitle, onClick }) {
   if (href) {
     return (
       <Link href={href}>
-        <a className={`${backgroundColor} flex items-center ${container} py-2 px-3 rounded-full hover:text-white hover:bg-na-green ${style.container}`}>
+        <a
+          className={`${backgroundColor} flex items-center ${container} py-2 px-3 rounded-full hover:text-white hover:bg-na-green ${style.container}`}
+        >
           {icon}
           <p className={`inline-block ${hiddenTitleClass} ${style.title}`}>{text}</p>
         </a>

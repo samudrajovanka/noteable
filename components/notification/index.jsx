@@ -1,4 +1,4 @@
-import NotificationContext from '@context/notification-context';
+import NotificationContext from '@context/notificationContext';
 import { useContext } from 'react';
 import PropTypes from 'prop-types';
 import CrossIcon from '@components/icon/cross';

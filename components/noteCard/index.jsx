@@ -1,29 +1,28 @@
 import Button from '@components/button';
 import PinIcon from '@components/icon/pin';
 import PinFillIcon from '@components/icon/pinFill';
-import { useEffect, useState } from 'react';
+import NotesContext from '@context/notesContext';
+import { useContext } from 'react';
 import style from './style.module.css';
 
-function NoteCard({ id, color, title, description, pinned }) {
-  const [isPinned, setIsPinned] = useState(pinned);
-  const [icon, setIcon] = useState();
+function NoteCard({ note }) {
+  const notesCtx = useContext(NotesContext);
 
-  useEffect(() => {
-    if (isPinned) {
-      setIcon(<PinFillIcon />);
-    } else {
-      setIcon(<PinIcon />);
-    }
-  }, [isPinned]);
+  let icon;
+  if (note.pinned) {
+    icon = <PinFillIcon />;
+  } else {
+    icon = <PinIcon />;
+  }
 
   let borderColor;
-  if (color === 'green') {
+  if (note.color === 'green') {
     borderColor = 'border-na-green';
-  } else if (color === 'red') {
+  } else if (note.color === 'red') {
     borderColor = 'border-na-red';
-  } else if (color === 'yellow') {
+  } else if (note.color === 'yellow') {
     borderColor = 'border-na-yellow';
-  } else if (color === 'violet') {
+  } else if (note.color === 'violet') {
     borderColor = 'border-na-violet';
   }
 
@@ -35,20 +34,42 @@ function NoteCard({ id, color, title, description, pinned }) {
     console.log('cocote v2.0');
   };
 
-  const togglePin = () => {
-    setIsPinned((curerl) => !curerl);
+  const togglePin = async () => {
+    const body = {
+      pinned: !note.pinned,
+    };
+    const result = await notesCtx.updateNote(note.id, body);
+
+    if (result.succes) {
+      return;
+    }
+
+    console.error(result.message);
   };
 
   return (
-    <div className={`flex flex-col bg-white border ${borderColor} rounded-md p-3 gap-1 ${style.note_card}`}>
+    <div
+      className={`flex flex-col bg-white border ${borderColor} rounded-md p-3 gap-1 ${style.note_card}`}
+    >
       <div className="flex flex-row justify-between">
-        <p className="font-bold text-lg">{title}</p>
-        <i className={`cursor-pointer opacity-0 transition-all ${style.icon}`} onClick={togglePin}>{icon}</i>
+        <p className="font-bold text-lg">{note.title}</p>
+        <i
+          className={`cursor-pointer opacity-0 transition-all ${style.icon}`}
+          onClick={togglePin}
+        >
+          {icon}
+        </i>
       </div>
-      <p className="text-na-gray">{description}</p>
-      <div className={`grid grid-cols-2 gap-3 opacity-0 transition-all ${style.button_container}`}>
-        <Button type="primary" color="warning" onClick={handlerEdit}>Edit</Button>
-        <Button type="primary" color="danger" onClick={handlerDelete}>Delete</Button>
+      <p className="text-na-gray">{note.description}</p>
+      <div
+        className={`grid grid-cols-2 gap-3 opacity-0 transition-all ${style.button_container}`}
+      >
+        <Button type="primary" color="warning" onClick={handlerEdit}>
+          Edit
+        </Button>
+        <Button type="primary" color="danger" onClick={handlerDelete}>
+          Delete
+        </Button>
       </div>
     </div>
   );
