@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import PropTypes from 'prop-types';
 
-function Button({ children, type, color, typeButton, onClick, href }) {
+function Button({ children, type, color, typeButton, onClick, href, disabled }) {
   let classNameButton;
   if (type === 'primary') {
     if (color === 'success') {
@@ -17,6 +17,11 @@ function Button({ children, type, color, typeButton, onClick, href }) {
     }
   }
 
+  let cursor = '';
+  if (disabled) {
+    cursor = 'cursor-not-allowed';
+  }
+
   if (href) {
     return (
       <Link href={href}>
@@ -30,8 +35,9 @@ function Button({ children, type, color, typeButton, onClick, href }) {
   return (
     <button
       type={typeButton}
-      className={`${classNameButton} py-2 px-6 rounded-md`}
+      className={`${classNameButton} py-2 px-6 rounded-md ${cursor}`}
       onClick={onClick}
+      disabled={disabled}
     >
       {children}
     </button>
@@ -44,6 +50,7 @@ Button.defaultProps = {
   href: null,
   type: 'primary',
   color: 'success',
+  disabled: false,
 };
 
 Button.propTypes = {
@@ -52,6 +59,7 @@ Button.propTypes = {
   typeButton: PropTypes.string,
   onClick: PropTypes.func,
   href: PropTypes.string,
+  disabled: PropTypes.bool,
 };
 
 export default Button;

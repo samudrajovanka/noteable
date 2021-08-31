@@ -2,10 +2,10 @@ import TextInput from '@components/textInput';
 import Button from '@components/button';
 import Notification from '@components/notification';
 import GoogleLogo from '@components/icon/google';
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { signIn } from 'next-auth/client';
 import { useRouter } from 'next/router';
-import NotificationContext from '@context/notification-context';
+import NotificationContext from '@context/notificationContext';
 import { fetchApi } from '@lib/fetching';
 import { EXIST_DATA, VALIDATION_ERR } from '@lib/constantErrorType';
 
@@ -13,6 +13,7 @@ function FormAuth() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [fullname, setFullname] = useState('');
+  const [disableBtn, setDisableBtn] = useState(true);
   const [authType, setAuthType] = useState('login');
   const [errorRegister, setErrorRegister] = useState({
     fullname: '',
@@ -21,6 +22,29 @@ function FormAuth() {
   });
   const router = useRouter();
   const notificationCtx = useContext(NotificationContext);
+
+  useEffect(() => {
+    if (authType === 'register') {
+      if (
+        errorRegister.fullname.length > 0 ||
+        errorRegister.email.length > 0 ||
+        errorRegister.password.length > 0 ||
+        fullname.length === 0 ||
+        email.length === 0 ||
+        password.length === 0
+      ) {
+        setDisableBtn(true);
+      } else {
+        setDisableBtn(false);
+      }
+    } else if (authType === 'login') {
+      if (email.length === 0 || password.length === 0) {
+        setDisableBtn(true);
+      } else {
+        setDisableBtn(false);
+      }
+    }
+  }, [errorRegister, email, fullname, password, authType]);
 
   const handlerFullname = (e) => {
     setFullname(e.target.value);
@@ -100,13 +124,6 @@ function FormAuth() {
     if (!result.success) {
       if (result.type === EXIST_DATA) {
         setErrorRegister((curEl) => ({ ...curEl, email: result.message }));
-      } else if (result.type === VALIDATION_ERR) {
-        const errSplit = result.message.split('"');
-        if (errSplit[1] === 'password') {
-          setErrorRegister((curEl) => ({ ...curEl, password: errSplit[2] }));
-        } else if (errSplit[1] === 'fullname') {
-          setErrorRegister((curEl) => ({ ...curEl, fullname: errSplit[2] }));
-        }
       }
     }
 
@@ -116,7 +133,6 @@ function FormAuth() {
       title: 'Your account successfully created',
       status: 'success',
     });
-    console.log(result);
   };
 
   const handlerSubmit = async (e) => {
@@ -195,7 +211,7 @@ function FormAuth() {
               />
             </div>
 
-            <Button typeButton="submit">
+            <Button typeButton="submit" disabled={disableBtn}>
               {authType === 'login' ? 'Login' : 'Register'}
             </Button>
 

@@ -2,15 +2,24 @@ import Button from '@components/button';
 import ListNote from '@components/listNote';
 import Subtitle from '@components/subtitle';
 import Title from '@components/title';
+import NotesContext from '@context/notesContext';
 import { fetchApi } from '@lib/fetching';
 import { getSession } from 'next-auth/client';
+import { useContext, useEffect } from 'react';
 
-function NotesPage({ notesPinned, notesUnpinned }) {
+function NotesPage({ initNotes }) {
+  const notesCtx = useContext(NotesContext);
+  const { setNotes, notesPinned, notesUnpinned } = notesCtx;
+
+  useEffect(() => {
+    setNotes(initNotes);
+  }, []);
+
   return (
     <div>
       <div className="flex justify-between mb-4 items-center">
         <Title>Notes</Title>
-        <Button href="/" type="primary">
+        <Button href="/notes/create" type="primary">
           New Note
         </Button>
       </div>
@@ -45,18 +54,22 @@ export async function getServerSideProps(context) {
       },
     };
   }
+
   const { req } = context;
   const { cookie } = req.headers;
   const resultNotes = await fetchApi(`${process.env.BASE_URL}/notes`, {
     headers: { cookie },
   });
+
   const { notes } = resultNotes.data;
-  const notesPinned = notes.filter((note) => note.pinned);
-  const notesUnpinned = notes.filter((note) => !note.pinned);
+  // const notesPinned = notes.filter((note) => note.pinned);
+  // const notesUnpinned = notes.filter((note) => !note.pinned);
+
   return {
     props: {
-      notesPinned,
-      notesUnpinned,
+      initNotes: notes,
+      // initNotesPinned: notesPinned,
+      // initNotesUnpinned: notesUnpinned,
     },
   };
 }
