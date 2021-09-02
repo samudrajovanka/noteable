@@ -7,12 +7,12 @@ function ListProject({ projects }) {
       {projects.map((project) => (
         <ProjectCard
           key={project.id}
+          id={project.id}
           title={project.name}
-          tasksDone={project.tasksDone}
-          totalTask={project.totalTask}
+          tasksDone={project.tasks.completed}
+          totalTask={project.tasks.length}
           color={project.color}
           status={project.status}
-          href="/"
         />
       ))}
     </div>

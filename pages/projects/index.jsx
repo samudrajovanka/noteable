@@ -1,21 +1,29 @@
 import Button from '@components/button';
 import GridProjects from '@components/gridProjects';
 import Title from '@components/title';
+import ProjectsContext from '@context/projectsContext';
 import { fetchApi } from '@lib/fetching';
 import { getSession } from 'next-auth/client';
+import { useContext, useEffect } from 'react';
 
-function ProjectsPage({ projectsNew, projectsUncomplete, projectsComplete }) {
+function ProjectsPage({ initProjects }) {
+  const projectsCtx = useContext(ProjectsContext);
+
+  useEffect(() => {
+    projectsCtx.setProjects(initProjects);
+  }, []);
+
   return (
     <>
       <div className="flex flex-row justify-between items-center">
         <Title>Projects</Title>
-        <Button>New Project</Button>
+        <Button href="/projects/create">New Project</Button>
       </div>
 
       <div className="mt-10 grid grid-cols-3 gap-4 min-h-screen">
-        <GridProjects title="New" projects={projectsNew} />
-        <GridProjects title="Uncomplete" projects={projectsUncomplete} />
-        <GridProjects title="Complete" projects={projectsComplete} />
+        <GridProjects title="New" projects={projectsCtx.projectsNew} />
+        <GridProjects title="Uncomplete" projects={projectsCtx.projectsUncomplete} />
+        <GridProjects title="Complete" projects={projectsCtx.projectsComplete} />
       </div>
     </>
   );
@@ -41,16 +49,10 @@ export async function getServerSideProps(context) {
   });
   const { projects } = resultProjects.data;
 
-  const projectsNew = projects.filter((project) => project.status === 'new');
-  const projectsUncomplete = projects.filter((project) => project.status === 'uncomplete');
-  const projectsComplete = projects.filter((project) => project.status === 'complete');
-
   return {
     props: {
       session,
-      projectsNew,
-      projectsUncomplete,
-      projectsComplete,
+      initProjects: projects,
     },
   };
 }

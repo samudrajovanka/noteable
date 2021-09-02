@@ -65,7 +65,7 @@ function TopNav() {
             ref={dropdown}
           >
             <DropDown>
-              <DropDownItem href="/" onClick={toogleDropDown}>New project</DropDownItem>
+              <DropDownItem href="/projects/create" onClick={toogleDropDown}>New project</DropDownItem>
               <DropDownItem href="/notes/create" onClick={toogleDropDown}>New note</DropDownItem>
             </DropDown>
           </div>

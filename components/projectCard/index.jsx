@@ -1,8 +1,11 @@
 import Button from '@components/button';
+import ProjectsContext from '@context/projectsContext';
 import Link from 'next/link';
 import PropTypes from 'prop-types';
+import { useContext } from 'react';
 
-function ProjectCard({ title, tasksDone, totalTask, color, href, status }) {
+function ProjectCard({ id, title, tasksDone, totalTask, color, status }) {
+  const projectsCtx = useContext(ProjectsContext);
   let backgroundColor;
   let backgroundPercent;
   let textColor = 'text-white';
@@ -34,44 +37,55 @@ function ProjectCard({ title, tasksDone, totalTask, color, href, status }) {
     complete: `${totalTask} tasks done`,
   };
 
+  const handlerStart = async () => {
+    const data = {
+      status: 'uncomplete',
+    };
+
+    const result = await projectsCtx.updateProject(id, data);
+
+    if (!result.success) {
+      console.error(result.message);
+    }
+  };
+
   return (
-    <Link href={href}>
-      <a>
-        <div className={`${backgroundColor} ${textColor} flex flex-col gap p-4 rounded-lg`}>
-          <p className="font-bold text-xl">{title}</p>
-          <div>
-            {status === 'new' && (
-              <>
-                <p className="my-3">{textDesc[status]}</p>
-                <Button type="secondary" color="success">Start</Button>
-              </>
-            )}
+    <div className={`${backgroundColor} ${textColor} flex flex-col gap p-4 rounded-lg`}>
+      <Link href={`projects/${id}`}>
+        <a className="font-semibold text-xl">{title}</a>
+      </Link>
 
-            {status === 'uncomplete' && (
-              <>
-                <p className="my-3">{textDesc[status]}</p>
-                <div className="bg-white h-2 rounded-xl">
-                  <div className={`${backgroundPercent} h-full rounded xl`} style={{ width: `${percentDone}%` }} />
-                </div>
-                <div className="flex justify-between mt-1">
-                  <p>Progress</p>
-                  <p>{percentDone}%</p>
-                </div>
-              </>
-            )}
+      <div>
+        {status === 'new' && (
+          <>
+            <p className="my-3">{textDesc[status]}</p>
+            <Button type="secondary" color="success" onClick={handlerStart}>Start</Button>
+          </>
+        )}
 
-            {status === 'complete' && (
-              <div className="flex flex-row justify-between items-center">
-                <p className="my-3">{textDesc[status]}</p>
-                <div className="mt-1 flex justify-center items-center bg-na-green rounded-full w-10 h-10">
-                  <p className="text-white">{percentDone}%</p>
-                </div>
-              </div>
-            )}
+        {status === 'uncomplete' && (
+          <>
+            <p className="my-3">{textDesc[status]}</p>
+            <div className="bg-white h-2 rounded-xl">
+              <div className={`${backgroundPercent} h-full rounded xl`} style={{ width: `${percentDone}%` }} />
+            </div>
+            <div className="flex justify-between mt-1">
+              <p>Progress</p>
+              <p>{percentDone}%</p>
+            </div>
+          </>
+        )}
+
+        {status === 'complete' && (
+          <div className="flex flex-row justify-between items-center">
+            <p className="my-3">{textDesc[status]}</p>
+            <div className="mt-1 flex justify-center items-center bg-na-green rounded-full w-10 h-10">
+              <p className="text-white">{percentDone}%</p>
+            </div>
           </div>
-        </div>
-      </a>
-    </Link>
+        )}
+      </div>
+    </div>
   );
 }
 
@@ -80,7 +94,6 @@ ProjectCard.propTypes = {
   tasksDone: PropTypes.number.isRequired,
   totalTask: PropTypes.number.isRequired,
   color: PropTypes.string.isRequired,
-  href: PropTypes.string.isRequired,
   status: PropTypes.string.isRequired,
 };
 

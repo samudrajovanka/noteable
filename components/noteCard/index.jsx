@@ -40,11 +40,9 @@ function NoteCard({ note }) {
     };
     const result = await notesCtx.updateNote(note.id, body);
 
-    if (result.succes) {
-      return;
+    if (!result.success) {
+      console.error(result.message);
     }
-
-    console.error(result.message);
   };
 
   return (

@@ -9,33 +9,32 @@ import { useContext, useEffect } from 'react';
 
 function NotesPage({ initNotes }) {
   const notesCtx = useContext(NotesContext);
-  const { setNotes, notesPinned, notesUnpinned } = notesCtx;
 
   useEffect(() => {
-    setNotes(initNotes);
+    notesCtx.setNotes(initNotes);
   }, []);
 
   return (
     <div>
       <div className="flex justify-between mb-4 items-center">
         <Title>Notes</Title>
-        <Button href="/notes/create" type="primary">
+        <Button href="/notes/create">
           New Note
         </Button>
       </div>
       <div className="mb-4">
-        {notesPinned.length > 0 && (
+        {notesCtx.notesPinned.length > 0 && (
           <>
             <Subtitle>Pinned</Subtitle>
-            <ListNote notes={notesPinned} />
+            <ListNote notes={notesCtx.notesPinned} />
           </>
         )}
       </div>
       <div>
-        {notesUnpinned.length > 0 && (
+        {notesCtx.notesUnpinned.length > 0 && (
           <>
-            {notesPinned.length > 0 && <Subtitle>Other</Subtitle>}
-            <ListNote notes={notesUnpinned} />
+            {notesCtx.notesPinned.length > 0 && <Subtitle>Other</Subtitle>}
+            <ListNote notes={notesCtx.notesUnpinned} />
           </>
         )}
       </div>

@@ -26,10 +26,10 @@ function NotesPage() {
 
   useEffect(() => {
     if (
-      errorMsg.title.length > 0 ||
-      errorMsg.description.length > 0 ||
-      title.length === 0 ||
-      description.length === 0
+      errorMsg.title.length !== '' ||
+      errorMsg.description.length !== '' ||
+      title === '' ||
+      description === ''
     ) {
       setDisableBtn(true);
     } else {
@@ -88,16 +88,24 @@ function NotesPage() {
         title: 'You have reached the maximum note limit (max 31)',
         status: 'error',
       });
+    } else {
+      notificationCtx.showNotification({
+        title: result.message,
+        status: 'error',
+      });
     }
   };
 
   return (
-    <div>
+    <>
       <div className="mb-5">
         <ButtonBack />
       </div>
+
       <Title>Create New Note</Title>
+
       <Notification className="mt-2" />
+
       <div className="grid grid-cols-12 w-full gap-4 mt-4">
         <form className="flex flex-col col-span-8 gap-10" onSubmit={handlerCreateNote}>
           <div className="flex flex-col gap-5">
@@ -130,12 +138,13 @@ function NotesPage() {
             Create
           </Button>
         </form>
+
         <div className="bg-na-light-green col-span-4 p-4 rounded-lg h-1/2">
           <p>Border Color</p>
           <ColorStyle colorActive={color} handlerChangeColor={handlerChangeColor} />
         </div>
       </div>
-    </div>
+    </>
   );
 }
 

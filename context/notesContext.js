@@ -11,7 +11,7 @@ const NotesContext = createContext({
   setNotesUnpinned: (notes) => {},
   refreshNotes: () => {},
   addNote: (note) => {},
-  updateNote: (note) => {},
+  updateNote: (id, data) => {},
   deleteNote: (noteId) => {},
 });
 
@@ -24,15 +24,6 @@ export const NotesContextProvider = ({ children }) => {
     setNotesPinned(notes.filter((note) => note.pinned));
     setNotesUnpinned(notes.filter((note) => !note.pinned));
   }, [notes]);
-
-  const refreshNotes = async () => {
-    const result = await fetchApi('/notes', { method: 'GET' });
-    if (result.success) {
-      setNotes(result.data);
-    } else {
-      console.error(result);
-    }
-  };
 
   const addNote = async (note) => {
     const result = await fetchApi('/api/notes', {
@@ -69,7 +60,7 @@ export const NotesContextProvider = ({ children }) => {
     return result;
   };
 
-  const deleteNote = (async (noteId) => {
+  const deleteNote = async (noteId) => {
     const result = await fetchApi(`/api/notes/${noteId}`, {
       method: 'DELETE',
     });
@@ -79,7 +70,7 @@ export const NotesContextProvider = ({ children }) => {
     }
 
     return result;
-  });
+  };
 
   const context = {
     notes,
@@ -88,7 +79,6 @@ export const NotesContextProvider = ({ children }) => {
     setNotesPinned,
     notesUnpinned,
     setNotesUnpinned,
-    refreshNotes,
     addNote,
     updateNote,
     deleteNote,
