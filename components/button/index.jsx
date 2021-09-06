@@ -25,7 +25,7 @@ function Button({ children, type, color, typeButton, onClick, href, disabled }) 
   if (href) {
     return (
       <Link href={href}>
-        <a className={`${classNameButton} inline-block py-2 px-6 rounded-md`}>
+        <a className={`${classNameButton} text-center inline-block py-2 px-6 rounded-md`}>
           {children}
         </a>
       </Link>

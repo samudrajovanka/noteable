@@ -26,10 +26,6 @@ function NoteCard({ note }) {
     borderColor = 'border-na-violet';
   }
 
-  const handlerEdit = () => {
-    console.log('cocote');
-  };
-
   const handlerDelete = () => {
     console.log('cocote v2.0');
   };
@@ -62,7 +58,7 @@ function NoteCard({ note }) {
       <div
         className={`grid grid-cols-2 gap-3 opacity-0 transition-all ${style.button_container}`}
       >
-        <Button type="primary" color="warning" onClick={handlerEdit}>
+        <Button href={`notes/${note.id}/edit`} type="primary" color="warning">
           Edit
         </Button>
         <Button type="primary" color="danger" onClick={handlerDelete}>
