@@ -61,14 +61,10 @@ export async function getServerSideProps(context) {
   });
 
   const { notes } = resultNotes.data;
-  // const notesPinned = notes.filter((note) => note.pinned);
-  // const notesUnpinned = notes.filter((note) => !note.pinned);
 
   return {
     props: {
       initNotes: notes,
-      // initNotesPinned: notesPinned,
-      // initNotesUnpinned: notesUnpinned,
     },
   };
 }
